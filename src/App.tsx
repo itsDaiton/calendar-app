@@ -1,9 +1,14 @@
 import React from 'react'
+import { Calendar, Header, Sidebar } from './components'
 
 const App = () => {
   return (
-    <div className='font-poppins text-[28px]'>
-      Hello world. 
+    <div>
+      <Header/>
+      <div className='flex flex-row'>
+      <Sidebar/>
+      <Calendar/>
+      </div>
     </div>
   )
 }
