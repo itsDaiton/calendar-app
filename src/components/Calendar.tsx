@@ -47,9 +47,9 @@ const Calendar = ({ year, month}: CalendarProps) => {
       weeks.push(
         <div
           key={i}
-          className={`bg-green-400 w-[25px] h-[25px] p-10 m-5 flex justify-center items-center font-poppins text-[26px] rounded-full
-          ${isCurrentMonth ? '' : 'bg-gray-400'}
-          ${isToday ? 'bg-blue-500' : ''}`}
+          className={`w-[25px] h-[25px] p-10 m-5 flex justify-center items-center font-poppins text-[26px] rounded-full
+          ${isCurrentMonth ? 'text-black' : 'text-gray-400'}
+          ${isToday ? 'bg-blue-600' : ''}`}
         >
           {date.date()}
         </div>
