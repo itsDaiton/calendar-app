@@ -3,11 +3,11 @@ import { RootState } from "../../utils/store";
 
 
 interface ViewState {
-  value: string | null;
+  value: string;
 }
 
 const initialState: ViewState = {
-  value: null
+  value: 'month'
 }
 
 export const viewSlice = createSlice({

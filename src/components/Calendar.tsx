@@ -61,22 +61,16 @@ const Calendar = () => {
 
   return (
     <div>
-    <div className='flex justify-center items-center flex-wrap flex-row w-1/2 space-x-5'>
-      <p className='font-poppins text-[32px]'>
-        {dayjs().month(month).format('MMMM')}
-      </p>
-      <p className='font-poppins text-[32px]'>
-        {year}
-      </p>
-    </div>
-    <div className='flex flex-row justify-center space-x-20 items-center w-1/2 py-5 font-poppins font-semibold text-[22px]'>
-      {daysOfWeek.map((day) => (
-        <p key={day.id}>{day.value}</p>
-      ))}
-    </div>
-    <div className='flex justify-center flex-wrap flex-row w-1/2'>
-      {renderWeeks()}
-    </div>
+      <div className='flex flex-row justify-center space-x-20 items-center py-5 font-poppins font-semibold text-[22px]'>
+        {daysOfWeek.map((day) => (
+          <p key={day.id}>{day.value}</p>
+        ))}
+      </div>
+      <div className='w-full flex justify-center'>
+        <div className='flex justify-center items-center flex-wrap w-1/2'>
+          {renderWeeks()}
+        </div>
+      </div>
     </div>
   )
 }

@@ -2,7 +2,7 @@ import dayjs from "dayjs";
 
 interface daysOfWeekDay {
   id: number;
-  value: string
+  value: string;
 }
 
 export const daysOfWeek : daysOfWeekDay[] = [
@@ -45,3 +45,22 @@ export const getCurrentMonth = (): number => {
 export const getCurrentYear = (): number => {
   return currentDate.year()
 }
+
+interface viewTypesType {
+  id: number;
+  value: string;
+  text: string;
+}
+
+export const viewTypes: viewTypesType[] = [
+  {
+    id: 1,
+    value: "week",
+    text: "Week"
+  },
+  {
+    id: 2,
+    value: "month",
+    text: "Month"
+  },
+]
