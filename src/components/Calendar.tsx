@@ -1,25 +1,26 @@
+import React from 'react';
 import dayjs from 'dayjs'
 import { daysOfWeek } from '../../utils/data'
-import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { useAppSelector } from '../../utils/hooks';
 import { selectMonth, selectYear } from '../slices/dateSlice';
+import Cell from './Cell';
 
 const Calendar = () => {
 
-  const year = useAppSelector(selectYear)
-  const month = useAppSelector(selectMonth)
-  const dispatch = useAppDispatch()
+  const year: number = useAppSelector(selectYear)
+  const month: number = useAppSelector(selectMonth)
 
   const renderWeeks = () => {
-    const weeks: any = []
+    const weeks: React.ReactElement[] = []
     
-    const firstDayOfMonth = dayjs().year(year).month(month).date(1)
-    const firstDayOfWeek = firstDayOfMonth.day()
-    const daysInMonth = firstDayOfMonth.daysInMonth()
+    const firstDayOfMonth: dayjs.Dayjs = dayjs().year(year).month(month).date(1)
+    const firstDayOfWeek: number = firstDayOfMonth.day()
+    const daysInMonth: number = firstDayOfMonth.daysInMonth()
 
     const previousMonthDays: dayjs.Dayjs[] = []
-    const previousMonthLastDay = dayjs().year(year).month(month - 1).endOf('month').date()
+    const previousMonthLastDay: number = dayjs().year(year).month(month - 1).endOf('month').date()
 
-    const startDayIndex = (firstDayOfWeek + 6) % 7
+    const startDayIndex: number = (firstDayOfWeek + 6) % 7
 
     for (let i = startDayIndex - 1; i >= 0; i--) {
       previousMonthDays.push(dayjs().year(year).month(month - 1).date(previousMonthLastDay - i))
@@ -30,36 +31,31 @@ const Calendar = () => {
       currentMonthDays.push(dayjs().year(year).month(month).date(i))
     }
 
-    const lastDayOfWeek = (firstDayOfWeek + daysInMonth - 1) % 7
-    const daysInNextMonth = (lastDayOfWeek === 6) ? 0 : 6 - lastDayOfWeek
+    const lastDayOfWeek: number = (firstDayOfWeek + daysInMonth - 1) % 7
+    const daysInNextMonth: number = (lastDayOfWeek === 6) ? 0 : 6 - lastDayOfWeek
 
     const nextMonthDays: dayjs.Dayjs[] = []
     for (let i = 1; i <= daysInNextMonth + 1; i++) {
       nextMonthDays.push(dayjs().year(year).month(month + 1).date(i))
     }
 
-    const days = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays]
+    const days: dayjs.Dayjs[] = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays]
 
-    const numberOfRows = days.length / 7
+    const numberOfRows: number = days.length / 7
 
     for (let i = 0; i < days.length; i++) {
-      const date = days[i]
-      const isCurrentMonth = date.month() === month
-      const isToday = date.isSame(dayjs(), 'day')
+      const date: dayjs.Dayjs = days[i]
+      const isCurrentMonth: boolean = date.month() === month
+      const isToday: boolean = date.isSame(dayjs(), 'day')
 
       weeks.push(
-        <div
-          key={i}
-          className={`w-[14.28%] px-4 flex justify-start font-poppins text-[16px] font-medium border-b-2 border-r-2
-          ${isCurrentMonth ? 'text-black' : 'text-slate-400'}
-          ${numberOfRows === 6 ? 'h-1/6' : 'h-1/5'}`}
-        >
-          
-          <div className={`w-[10px] h-[10px] p-5 flex items-center justify-center rounded-full 
-          ${isToday ? 'bg-purple-700 text-white' : ''}`}>
-            <p>{date.date()}</p>
-          </div>     
-        </div>
+        <Cell 
+          key={i} 
+          date={date}
+          numberOfRows={numberOfRows} 
+          isCurrentMonth={isCurrentMonth} 
+          isToday={isToday}
+        />
       )
     }
     return weeks;
