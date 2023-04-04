@@ -62,7 +62,7 @@ const Header = () => {
   }
 
   return (
-    <div className='flex justify-between items-center font-poppins border-b-2 px-6 py-4'>
+    <div className='flex justify-between items-center font-poppins border-b-2 px-6 h-[10vh]'>
       <div className='flex w-1/3 justify-start space-x-4'>
         <FontAwesomeIcon icon={faCalendarDays} className='text-[36px]'/>
         <p className='text-center text-[28px] font-semibold'>Calendar</p>

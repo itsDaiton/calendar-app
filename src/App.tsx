@@ -8,7 +8,7 @@ const App = () => {
     <Provider store={store}>
       <div>
         <Header/>
-        <div className='flex flex-row'>
+        <div className='flex flex-row h-[90vh]'>
           <Sidebar/>
           <Calendar/>
         </div>
