@@ -1,12 +1,13 @@
 import dayjs from 'dayjs'
 import { daysOfWeek } from '../../utils/data'
+import { useAppDispatch, useAppSelector } from '../../utils/hooks';
+import { selectMonth, selectYear } from '../slices/dateSlice';
 
-type CalendarProps = {
-  year: number;
-  month: number;
-}
+const Calendar = () => {
 
-const Calendar = ({ year, month}: CalendarProps) => {
+  const year = useAppSelector(selectYear)
+  const month = useAppSelector(selectMonth)
+  const dispatch = useAppDispatch()
 
   const renderWeeks = () => {
     const weeks: any = []

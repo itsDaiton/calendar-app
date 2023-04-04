@@ -1,3 +1,5 @@
+import dayjs from "dayjs";
+
 interface daysOfWeekDay {
   id: number;
   value: string
@@ -33,3 +35,13 @@ export const daysOfWeek : daysOfWeekDay[] = [
     value: "SUN",
   },
 ]
+
+const currentDate: dayjs.Dayjs = dayjs()
+
+export const getCurrentMonth = (): number => {
+  return currentDate.month()
+}
+
+export const getCurrentYear = (): number => {
+  return currentDate.year()
+}
