@@ -9,13 +9,13 @@ type CalendarProps = {
 const Calendar = ({ year, month}: CalendarProps) => {
 
   const renderWeeks = () => {
-    const weeks = []
+    const weeks: any = []
     
     const firstDayOfMonth = dayjs().year(year).month(month).date(1)
     const firstDayOfWeek = firstDayOfMonth.day()
     const daysInMonth = firstDayOfMonth.daysInMonth()
 
-    const previousMonthDays = []
+    const previousMonthDays: dayjs.Dayjs[] = []
     const previousMonthLastDay = dayjs().year(year).month(month - 1).endOf('month').date()
 
     const startDayIndex = (firstDayOfWeek + 6) % 7
@@ -24,7 +24,7 @@ const Calendar = ({ year, month}: CalendarProps) => {
       previousMonthDays.push(dayjs().year(year).month(month - 1).date(previousMonthLastDay - i))
     }
 
-    const currentMonthDays = []
+    const currentMonthDays: dayjs.Dayjs[] = []
     for (let i = 1; i <= daysInMonth; i++) {
       currentMonthDays.push(dayjs().year(year).month(month).date(i))
     }
@@ -32,7 +32,7 @@ const Calendar = ({ year, month}: CalendarProps) => {
     const lastDayOfWeek = (firstDayOfWeek + daysInMonth - 1) % 7
     const daysInNextMonth = (lastDayOfWeek === 6) ? 0 : 6 - lastDayOfWeek
 
-    const nextMonthDays = []
+    const nextMonthDays: dayjs.Dayjs[] = []
     for (let i = 1; i <= daysInNextMonth + 1; i++) {
       nextMonthDays.push(dayjs().year(year).month(month + 1).date(i))
     }
