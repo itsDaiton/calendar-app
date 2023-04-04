@@ -8,31 +8,31 @@ interface daysOfWeekDay {
 export const daysOfWeek : daysOfWeekDay[] = [
   {
     id: 1,
-    value: "MON",
+    value: "Mon",
   },
   {
     id: 2,
-    value: "TUE",
+    value: "Tue",
   },
   {
     id: 3,
-    value: "WED",
+    value: "Wed",
   },
   {
     id: 4,
-    value: "THU",
+    value: "Thu",
   },
   {
     id: 5,
-    value: "FRI",
+    value: "Fri",
   },
   {
     id: 6,
-    value: "SAT",
+    value: "Sat",
   },
   {
     id: 7,
-    value: "SUN",
+    value: "Sun",
   },
 ]
 

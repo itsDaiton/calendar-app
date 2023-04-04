@@ -40,6 +40,8 @@ const Calendar = () => {
 
     const days = [...previousMonthDays, ...currentMonthDays, ...nextMonthDays]
 
+    const numberOfRows = days.length / 7
+
     for (let i = 0; i < days.length; i++) {
       const date = days[i]
       const isCurrentMonth = date.month() === month
@@ -48,11 +50,15 @@ const Calendar = () => {
       weeks.push(
         <div
           key={i}
-          className={`w-[25px] h-[25px] p-10 m-5 flex justify-center items-center font-poppins text-[26px] rounded-full
-          ${isCurrentMonth ? 'text-black' : 'text-gray-400'}
-          ${isToday ? 'bg-blue-600' : ''}`}
+          className={`w-[14.28%] px-4 flex justify-start font-poppins text-[16px] font-medium border-b-2 border-r-2
+          ${isCurrentMonth ? 'text-black' : 'text-slate-400'}
+          ${numberOfRows === 6 ? 'h-1/6' : 'h-1/5'}`}
         >
-          {date.date()}
+          
+          <div className={`w-[10px] h-[10px] p-5 flex items-center justify-center rounded-full 
+          ${isToday ? 'bg-purple-700 text-white' : ''}`}>
+            <p>{date.date()}</p>
+          </div>     
         </div>
       )
     }
@@ -60,15 +66,17 @@ const Calendar = () => {
   }
 
   return (
-    <div>
-      <div className='flex flex-row justify-center space-x-20 items-center py-5 font-poppins font-semibold text-[22px]'>
-        {daysOfWeek.map((day) => (
-          <p key={day.id}>{day.value}</p>
-        ))}
-      </div>
-      <div className='w-full flex justify-center'>
-        <div className='flex justify-center items-center flex-wrap w-1/2'>
-          {renderWeeks()}
+    <div className='w-[85vw] h-[90vh]'>
+      <div className='h-full'>
+        <div className='flex flex-row justify-center items-center font-poppins font-semibold text-[22px] h-[5%]'>
+          {daysOfWeek.map((day) => (
+            <p key={day.id} className='w-[14.28%] h-full px-4 text-center border-r-2 border-b-2 bg-slate-100'>{day.value}</p>
+          ))}
+        </div>
+        <div className='flex justify-center h-[95%]'>
+          <div className='flex justify-center items-center flex-wrap'>
+            {renderWeeks()}
+          </div>
         </div>
       </div>
     </div>
