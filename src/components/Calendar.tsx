@@ -1,8 +1,8 @@
 import React from 'react';
 import dayjs from 'dayjs'
-import { daysOfWeek } from '../../utils/data'
+import { daysOfWeek, getFirstDayOfWeek } from '../../utils/data'
 import { useAppSelector } from '../../utils/hooks';
-import { selectMonth, selectYear } from '../slices/dateSlice';
+import { selectMonth, selectWeek, selectYear } from '../slices/dateSlice';
 import { selectView } from '../slices/viewSlice';
 import MonthCell from './MonthCell';
 import WeekCell from './WeekCell';
@@ -11,6 +11,7 @@ const Calendar = () => {
 
   const year: number = useAppSelector(selectYear)
   const month: number = useAppSelector(selectMonth)
+  const week: number = useAppSelector(selectWeek)
   const view: string = useAppSelector(selectView)
 
   const weekDaysValues: React.ReactElement[] = []
@@ -66,7 +67,7 @@ const Calendar = () => {
       }
     }
     else {
-      const startOfWeek: dayjs.Dayjs = dayjs().year(year).month(month).startOf('week').add(1, 'day')
+      const startOfWeek = getFirstDayOfWeek(year, month, week)
 
       for (let i = 0; i < 7; i++) {
         const date: dayjs.Dayjs = startOfWeek.add(i, 'day')
@@ -81,7 +82,7 @@ const Calendar = () => {
 
         weekDaysNames.push(
           <p 
-            key={date.date()} 
+            key={i} 
             className={`w-[14.28%] h-full px-4 text-center border-r-2 bg-slate-100 
             ${viewType === 'month' ? 'border-b-2' : ''}
             ${isCurrentMonth ? 'text-black' : 'text-slate-400'}`}
@@ -92,7 +93,7 @@ const Calendar = () => {
 
         weekDaysValues.push(
           <div 
-            key={date.date()} 
+            key={i} 
             className='w-[14.28%] h-full px-4 rounded text-center border-r-2 border-b-2 bg-slate-100 flex justify-center items-center pb-2'
           >
             <div className={`w-[35px] h-[35px] rounded-full flex justify-center items-center 
@@ -107,6 +108,7 @@ const Calendar = () => {
           <WeekCell
             hours={hours}
             index={i}
+            key={i}
           />
         )
       }

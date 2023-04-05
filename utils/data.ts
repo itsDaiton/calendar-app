@@ -1,4 +1,7 @@
-import dayjs from "dayjs";
+import dayjs, { Dayjs } from "dayjs";
+import weekOfYear from 'dayjs/plugin/weekOfYear'
+
+dayjs.extend(weekOfYear)
 
 interface daysOfWeekDay {
   id: number;
@@ -44,6 +47,18 @@ export const getCurrentMonth = (): number => {
 
 export const getCurrentYear = (): number => {
   return currentDate.year()
+}
+
+export const getCurrentWeek = (): number => {
+  return currentDate.week()
+}
+
+export const getFirstDayOfWeek = (year: number, month: number, week: number): dayjs.Dayjs => {
+  return dayjs().year(year).month(month).week(week).startOf('week').add(1, 'day')
+}
+
+export const getFirstDayOfMonth = (year: number, month: number): dayjs.Dayjs => {
+  return dayjs().year(year).month(month).startOf('month')
 }
 
 interface viewTypesType {
