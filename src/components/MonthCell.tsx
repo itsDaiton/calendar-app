@@ -1,13 +1,13 @@
 import dayjs from 'dayjs';
 
 type CalendarCellProps = {
-  date: dayjs.Dayjs
+  date: dayjs.Dayjs;
   numberOfRows: number;
   isCurrentMonth: boolean;
-  isToday: boolean
+  isToday: boolean;
 }
 
-const Cell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps) => {
+const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps) => {
   return (
     <div
       className={`w-[14.28%] px-4 flex justify-start font-poppins text-[16px] font-medium border-b-2 border-r-2
@@ -24,4 +24,4 @@ const Cell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps
   )
 }
 
-export default Cell
+export default MonthCell
