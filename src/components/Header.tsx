@@ -1,8 +1,8 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faCalendarDays } from '@fortawesome/free-solid-svg-icons'
 import { useAppDispatch } from '../../utils/hooks'
-import { setMonth, setYear } from '../slices/dateSlice'
-import { getCurrentMonth, getCurrentYear } from '../../utils/data'
+import { setMonth, setWeek, setYear } from '../slices/dateSlice'
+import { getCurrentMonth, getCurrentWeek, getCurrentYear } from '../../utils/data'
 import ViewSwitch from './ViewSwitch'
 import CalendarSwitch from './CalendarSwitch'
 
@@ -16,6 +16,9 @@ const Header = () => {
     )
     dispatch(
       setMonth(getCurrentMonth())
+    )
+    dispatch(
+      setWeek(getCurrentWeek())
     )
   }
 
