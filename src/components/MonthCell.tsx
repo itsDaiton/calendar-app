@@ -1,6 +1,8 @@
 import dayjs from 'dayjs';
-import { useState } from 'react';
-import Modal from './Modal';
+import { useEffect, useState } from 'react';
+import { EventType } from '../../utils/data';
+import ModalEvents from './ModalEvents';
+import ModalOperations from './ModalOperations';
 
 type CalendarCellProps = {
   date: dayjs.Dayjs;
@@ -11,49 +13,41 @@ type CalendarCellProps = {
 
 const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps) => {
 
-  const [showModal, setShowModal] = useState<boolean>(false)
+  const [showModalEvents, setShowModalEvents] = useState<boolean>(false)
+  const [showModalOperations, setShowModalOperations] = useState<boolean>(false)
+  const [events, setEvents] = useState<EventType[]>([])
+  
+  const loadEvents = (): EventType[] => {
+    const data: string | null = localStorage.getItem('events')
+    if (data) {
+      const items: EventType[] = JSON.parse(data)
+      return items.map((event: EventType) => ({
+        title: event.title,
+        from: dayjs(event.from),
+        to: dayjs(event.to),
+        color: event.color
+      }))
+    } 
+    else {
+      return []
+    }
+  }
 
-  const events = [
-    {
-      title: 'Birthday',
-      from: dayjs().hour(1).minute(0),
-      to: dayjs().hour(4).minute(0),
-      color: 'bg-yellow-600',   
-    },
-    {
-      title: 'Meeting 1',
-      from: dayjs().hour(10).minute(0),
-      to: dayjs().hour(14).minute(0),
-      color: 'bg-blue-300',   
-    },
-    {
-      title: 'Meeting 2',
-      from: dayjs().hour(12).minute(0).add(1, 'day'),
-      to: dayjs().hour(14).minute(0).add(1, 'day'),
-      color: 'bg-red-500',   
-    },
-    {
-      title: 'Meeting 3',
-      from: dayjs().hour(4).minute(0).add(1, 'day'),
-      to: dayjs().hour(5).minute(0).add(1, 'day'),
-      color: 'bg-cyan-500',   
-    },
-    {
-      title: 'Meeting 4',
-      from: dayjs().hour(7).add(1, 'day').minute(0),
-      to: dayjs().hour(8).add(1, 'day').minute(0),
-      color: 'bg-indigo-600',   
-    },
-    {
-      title: 'Meeting 4',
-      from: dayjs().hour(7).minute(0),
-      to: dayjs().hour(8).minute(0),
-      color: 'bg-indigo-600',   
-    },
-  ]
+  const addEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (e.target === e.currentTarget) {
+      setShowModalOperations(true)
+    }
+  }
 
-  const sameDayEvents = events.filter(
-    (event) => date.isSame(event.from, 'date')
+  useEffect(() => {
+    const items: EventType[] = loadEvents()
+    setEvents(items)
+  }, [showModalOperations])
+
+  const sameDayEvents: EventType[] = events.filter(
+    (event) => date.isSame(event.from, 'date')).sort(
+      (a, b) => dayjs(a.from).diff(dayjs(b.from)
+    )
   )
 
   const eventBoxes: JSX.Element[] = sameDayEvents.slice(0, 2).map((event, index) => {
@@ -70,10 +64,10 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
 
   const moreButton: JSX.Element | null =
     sameDayEvents.length > 2 ? (
-      <div className="w-full flex justify-center mt-1">
+      <div className='w-full flex justify-center mt-1'>
         <button
-          className="text-blue-500 font-medium hover:text-blue-700 cursor-pointer"
-          onClick={() => setShowModal(true)}
+          className='text-blue-500 font-medium hover:text-blue-700 cursor-pointer'
+          onClick={() => setShowModalEvents(true)}
         >
           More...
         </button>
@@ -85,9 +79,10 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
       className={`w-[14.28%] px-4 flex justify-start font-poppins text-[16px] font-medium border-b-2 border-r-2 flex-col
       ${isCurrentMonth ? 'text-black' : 'text-slate-400'}
       ${numberOfRows === 6 ? 'h-1/6' : 'h-1/5'}`}
+      onClick={addEvent}
     >   
       <div 
-        className={`w-[10px] h-[10px] p-5 flex items-center justify-center rounded-full 
+        className={`w-[10px] h-[10px] p-5 mt-1 flex items-center justify-center rounded-full cursor-default 
         ${isToday ? 'bg-purple-700 text-white' : ''}`}
       >
         <p>{date.date()}</p>
@@ -96,9 +91,16 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
         {eventBoxes}
         {moreButton} 
       </div>
-      {showModal &&
-        <Modal events={sameDayEvents} setShowModal={setShowModal} showModal={showModal} date={date}/>  
-      } 
+      {showModalEvents &&
+        <ModalEvents events={sameDayEvents} setShowModal={setShowModalEvents} showModal={showModalEvents} date={date}/>  
+      }
+      {showModalOperations &&
+        <ModalOperations 
+          date={date} 
+          setShowModal={setShowModalOperations} 
+          showModal={showModalOperations} 
+        />  
+      }
     </div>
   )
 }

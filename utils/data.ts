@@ -1,4 +1,4 @@
-import dayjs, { Dayjs } from "dayjs";
+import dayjs from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 dayjs.extend(weekOfYear)
@@ -79,3 +79,10 @@ export const viewTypes: viewTypesType[] = [
     text: "Month"
   },
 ]
+
+export type EventType = {
+  title: string;
+  from: dayjs.Dayjs;
+  to: dayjs.Dayjs;
+  color: string;
+}

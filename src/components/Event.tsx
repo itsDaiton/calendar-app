@@ -1,15 +1,8 @@
-import dayjs from 'dayjs';
+import { EventType } from '../../utils/data';
 import { useAppSelector } from '../../utils/hooks';
 import { selectView } from '../slices/viewSlice';
 
-type EventProps = {
-  title: string;
-  from: dayjs.Dayjs;
-  to: dayjs.Dayjs;
-  color: string;
-}
-
-const Event = ({ title, from, to, color }: EventProps) => {
+const Event = ({ title, from, to, color }: EventType) => {
   const view: string = useAppSelector(selectView)
 
   if (view === 'week') { 

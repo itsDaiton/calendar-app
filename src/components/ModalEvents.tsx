@@ -1,18 +1,14 @@
 import dayjs from "dayjs";
+import { EventType } from "../../utils/data";
 
 type ModalProps = {
   date: dayjs.Dayjs
-  events: {
-    title: string;
-    from: dayjs.Dayjs;
-    to: dayjs.Dayjs;
-    color: string;
-  }[];
-  setShowModal: any;
+  events: EventType[]
+  setShowModal: (value: React.SetStateAction<boolean>) => void
   showModal: boolean;
 }
 
-const Modal = ({ date, events, setShowModal, showModal }: ModalProps) => {
+const ModalEvents = ({ date, events, setShowModal, showModal }: ModalProps) => {
 
   const clickOutside = (): void => {
     if (showModal) {
@@ -28,7 +24,7 @@ const Modal = ({ date, events, setShowModal, showModal }: ModalProps) => {
       >
         <div className='relative w-auto my-6 mx-auto max-w-2xl'>
           <div 
-            className='flex flex-col relative w-full rounded-xl shadow-xl bg-white'
+            className='flex flex-col relative w-full rounded-xl shadow-2xl bg-white'
             onClick={e => e.stopPropagation()}
           >
             <div className='flex p-5 border-b-2 border-slate-200'>
@@ -60,9 +56,9 @@ const Modal = ({ date, events, setShowModal, showModal }: ModalProps) => {
           </div>
         </div>
       </div>
-      <div className='opacity-40 fixed inset-0 z-40 bg-black'/>
+      <div className='opacity-10 fixed inset-0 z-40 bg-black'/>
     </div>
   )
 }
 
-export default Modal
+export default ModalEvents
