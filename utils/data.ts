@@ -81,6 +81,7 @@ export const viewTypes: viewTypesType[] = [
 ]
 
 export type EventType = {
+  id: number;
   title: string;
   from: dayjs.Dayjs;
   to: dayjs.Dayjs;

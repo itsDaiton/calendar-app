@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { EventType } from '../../utils/data';
 import ModalEvents from './ModalEvents';
 import ModalOperations from './ModalOperations';
+import ModalSingleEvent from './ModalSingleEvent';
 
 type CalendarCellProps = {
   date: dayjs.Dayjs;
@@ -14,14 +15,18 @@ type CalendarCellProps = {
 const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps) => {
 
   const [showModalEvents, setShowModalEvents] = useState<boolean>(false)
-  const [showModalOperations, setShowModalOperations] = useState<boolean>(false)
+  const [showModalOperationsAdd, setShowModalOperationsAdd] = useState<boolean>(false)
+  const [showModalOperationsEdit, setShowModalOperationsEdit] = useState<boolean>(false)
+  const [showModalSingleEvent, setShowModalSingleEvent] = useState<boolean>(false)
   const [events, setEvents] = useState<EventType[]>([])
+  const [selectedEvent, setSelectedEvent] = useState<EventType>()
   
   const loadEvents = (): EventType[] => {
     const data: string | null = localStorage.getItem('events')
     if (data) {
       const items: EventType[] = JSON.parse(data)
       return items.map((event: EventType) => ({
+        id: event.id,
         title: event.title,
         from: dayjs(event.from),
         to: dayjs(event.to),
@@ -33,16 +38,16 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
     }
   }
 
-  const addEvent = (e: React.MouseEvent<HTMLDivElement>) => {
+  const addEvent = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
-      setShowModalOperations(true)
+      setShowModalOperationsAdd(true)
     }
   }
 
   useEffect(() => {
     const items: EventType[] = loadEvents()
     setEvents(items)
-  }, [showModalOperations])
+  }, [showModalOperationsAdd,, showModalOperationsEdit, showModalSingleEvent])
 
   const sameDayEvents: EventType[] = events.filter(
     (event) => date.isSame(event.from, 'date')).sort(
@@ -54,7 +59,14 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
     const startTime = event.from.format('HH:mm')
     const endTime = event.to.format('HH:mm')
     return (
-      <div key={index} className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2`}>
+      <div 
+        key={index} 
+        className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2 cursor-pointer`}
+        onClick={() => {
+          setSelectedEvent(event)
+          setShowModalSingleEvent(true)
+        }}
+      >
         <span>
           {`${event.title} (${startTime} - ${endTime})`}
         </span>
@@ -92,14 +104,38 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
         {moreButton} 
       </div>
       {showModalEvents &&
-        <ModalEvents events={sameDayEvents} setShowModal={setShowModalEvents} showModal={showModalEvents} date={date}/>  
-      }
-      {showModalOperations &&
-        <ModalOperations 
-          date={date} 
-          setShowModal={setShowModalOperations} 
-          showModal={showModalOperations} 
+        <ModalEvents 
+          events={sameDayEvents} 
+          setShowModal={setShowModalEvents} 
+          showModal={showModalEvents} 
+          date={date}
         />  
+      }
+      {showModalOperationsAdd &&
+        <ModalOperations
+          mode='add'
+          date={date} 
+          setShowModal={setShowModalOperationsAdd} 
+          showModal={showModalOperationsAdd}
+        />  
+      }
+      {showModalOperationsEdit &&
+        <ModalOperations
+          mode='edit'
+          date={date} 
+          setShowModal={setShowModalOperationsEdit} 
+          showModal={showModalOperationsEdit}
+          event={selectedEvent}
+        />  
+      }
+      {(showModalSingleEvent && selectedEvent) &&
+        <ModalSingleEvent
+          setShowModalSingleEvent={setShowModalSingleEvent}
+          showModalSingleEvent={showModalSingleEvent}
+          setShowModalOpeartions={setShowModalOperationsEdit}
+          showModalOperations={showModalOperationsEdit}
+          event={selectedEvent}
+        />
       }
     </div>
   )

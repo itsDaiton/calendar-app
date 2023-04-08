@@ -1,7 +1,7 @@
-import { ChangeEvent, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from 'react';
 import { EventType } from '../../utils/data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCalendarDays } from '@fortawesome/free-solid-svg-icons';
+import { faCalendarDays, faPen } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import validator from 'validator';
 
@@ -51,9 +51,11 @@ type ModalProps = {
   date: dayjs.Dayjs
   setShowModal: (value: React.SetStateAction<boolean>) => void
   showModal: boolean;
+  mode: string;
+  event?: EventType;
 }
 
-const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
+const ModalOperations = ({ date, setShowModal, showModal, mode, event }: ModalProps) => {
 
   const [eventInputs, setEventsInputs] = useState<EventInputProps>(defaultInputs)
   const [titleError, setTitleError] = useState<string>('')
@@ -66,6 +68,20 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
     const hour: dayjs.Dayjs = date.hour(i).minute(0)
     hours.push(hour)
   }
+
+  useEffect(() => {
+    if (mode === 'edit') {
+      if (event) {
+        setEventsInputs({           
+          title: event?.title,
+          from: '',
+          to: '',
+          color: event?.color,
+        }) 
+      }  
+    }
+  }, [])
+  
 
   const clickOutside = (): void => {
     if (showModal) {
@@ -97,11 +113,21 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
     }
 
     if (validator.isEmpty(eventInputs.from)) {
-      setFromError('Start of event is required.')
+      if (mode === 'edit') {
+        setFromError('New start of event is required.')
+      }
+      else {
+        setFromError('Start of event is required.')
+      }
     }
 
     if (validator.isEmpty(eventInputs.to)) {
-      setToError('End of event is required.')
+      if (mode === 'edit') {
+        setToError('New end of event is required.')
+      }
+      else {
+        setToError('End of event is required.')
+      }
     }
 
     if (validator.isEmpty(eventInputs.color)) {
@@ -119,25 +145,47 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
       !validator.isEmpty(eventInputs.to) &&
       (dayjs(eventInputs.from).isBefore(dayjs(eventInputs.to)) || 
       dayjs(eventInputs.from).isSame(dayjs(eventInputs.to)))) {
-
-      const newEvent: EventType = {
-        title: eventInputs.title,
-        from: dayjs(eventInputs.from),
-        to: dayjs(eventInputs.to),
-        color: color,
-      }
   
       const data: string | null = localStorage.getItem('events')
   
       if (data) {
         const items: EventType[] = JSON.parse(data)
-        localStorage.setItem('events', JSON.stringify([...items, newEvent]))
+
+        if (mode === 'edit') {
+          const editedEvent = items.find(item => item.id === event?.id)
+          if (editedEvent) {
+            editedEvent.color = eventInputs.color
+            editedEvent.from = dayjs(eventInputs.from)
+            editedEvent.to = dayjs(eventInputs.to)
+            editedEvent.title = eventInputs.title
+          }
+          localStorage.setItem('events', JSON.stringify(items))         
+        }
+        else {
+          const lastIndex = items[items.length - 1].id
+          const newEvent: EventType = {       
+            id: lastIndex + 1,
+            title: eventInputs.title,
+            from: dayjs(eventInputs.from),
+            to: dayjs(eventInputs.to),
+            color: color,
+          }
+          localStorage.setItem('events', JSON.stringify([...items, newEvent]))
+        }
       }
       else {
         const events: EventType[] = []
+        const newEvent: EventType = {       
+          id: 1,
+          title: eventInputs.title,
+          from: dayjs(eventInputs.from),
+          to: dayjs(eventInputs.to),
+          color: color,
+        }
         events.push(newEvent)
         localStorage.setItem('events', JSON.stringify(events))
       }
+
       setShowModal(false)  
     }
   }
@@ -156,14 +204,25 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
             <div className='flex p-5 border-b-2'>
               <div className='flex flex-col justify-center items-center w-full'>
                 <div className='flex justify-center items-center text-3xl mb-4 space-x-4'>
-                  <FontAwesomeIcon icon={faCalendarDays} />
+                  <FontAwesomeIcon icon={mode === 'edit' ? faPen : faCalendarDays} />
                   <p className='font-semibold'>
-                    New event
+                    {mode === 'edit' ? `Editing \'${event?.title}\'` : 'New event'}
                   </p>
                 </div>
+                {mode === 'add' ?
                 <p className='text-xl font-semibold text-slate-600'>
                   {date.locale('en').format('dddd').substring(0, 3)} {date.format('DD')}. {date.format('MM')}. {date.format('YYYY')}
                 </p>
+                :
+                <div>
+                  <p className='text-xl font-semibold text-slate-600 text-center'>
+                    {event?.from.format('HH:mm')} - {event?.to.format('HH:mm')}
+                  </p>
+                  <p className='text-xl font-semibold text-slate-600 mt-5 text-center'>
+                    {event?.from.locale('en').format('dddd').substring(0, 3)} {event?.from.format('DD')}. {event?.from.format('MM')}. {event?.from.format('YYYY')}
+                  </p>
+                </div>
+                }
               </div>
             </div>
             <form className='relative p-5 flex-auto space-y-8 mx-2'>
@@ -203,7 +262,7 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
                   className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
                   ${fromError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
-                  <option>Choose an hour</option>
+                  <option>{mode === 'edit' ? 'Choose an new hour' : 'Choose an hour' }</option>
                   {hours.map((hour, i) => (
                     <option key={i} value={hour.format()} >{hour.format('HH:mm')}</option>
                   ))}             
@@ -227,7 +286,7 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
                   className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
                   ${toError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
-                  <option>Choose an hour</option>
+                  <option>{mode === 'edit' ? 'Choose an new hour' : 'Choose an hour' }</option>
                   {hours.map((hour, i) => (
                     <option key={i} value={hour.format()} >{hour.format('HH:mm')}</option>
                   ))}
