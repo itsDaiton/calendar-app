@@ -106,9 +106,12 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
       {showModalEvents &&
         <ModalEvents 
           events={sameDayEvents} 
-          setShowModal={setShowModalEvents} 
-          showModal={showModalEvents} 
+          setShowModalEvents={setShowModalEvents}
+          showModalEvents={showModalEvents}
+          setShowModalSingleEvent={setShowModalSingleEvent}
+          showModalSingleEvent={showModalSingleEvent}
           date={date}
+          setSelectedEvent={setSelectedEvent}
         />  
       }
       {showModalOperationsAdd &&

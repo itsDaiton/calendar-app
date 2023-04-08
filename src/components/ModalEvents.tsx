@@ -1,21 +1,28 @@
 import dayjs from "dayjs";
 import { EventType } from "../../utils/data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCalendarDays, faLayerGroup } from "@fortawesome/free-solid-svg-icons";
+import { faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 
 type ModalProps = {
   date: dayjs.Dayjs
   events: EventType[]
-  setShowModal: (value: React.SetStateAction<boolean>) => void
-  showModal: boolean;
+  setShowModalEvents: (value: React.SetStateAction<boolean>) => void
+  showModalEvents: boolean;
+  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
+  showModalSingleEvent: boolean;
+  setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void
 }
 
-const ModalEvents = ({ date, events, setShowModal, showModal }: ModalProps) => {
+const ModalEvents = ({ date, events, setShowModalEvents, showModalEvents, setShowModalSingleEvent, showModalSingleEvent, setSelectedEvent }: ModalProps) => {
 
   const clickOutside = (): void => {
-    if (showModal) {
-      setShowModal(false)
+    if (showModalEvents) {
+      setShowModalEvents(false)
     }
+  }
+
+  const openEvent = (id: number): void => {
+
   }
 
   return (
@@ -44,7 +51,15 @@ const ModalEvents = ({ date, events, setShowModal, showModal }: ModalProps) => {
             </div>
             <div className='relative p-5 flex-auto mx-10 space-y-3'>
               {events.map((event, index) => (
-              <div key={index} className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2`}>
+              <div 
+                key={index} 
+                className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2 cursor-pointer`}
+                onClick={() => {
+                  setSelectedEvent(event)
+                  setShowModalEvents(false)
+                  setShowModalSingleEvent(true)
+                }} 
+              >
                 <span>{`${event.title} (${event.from.format('HH:mm')} - ${event.to.format('HH:mm')})`}</span>
               </div>
               ))}
@@ -53,7 +68,7 @@ const ModalEvents = ({ date, events, setShowModal, showModal }: ModalProps) => {
               <button
                 className='text-[18px] text-white bg-red-500 rounded-xl p-1 font-medium px-8 py-2 select-none space-x-2'
                 type='button'
-                onClick={() => setShowModal(false)}
+                onClick={() => setShowModalEvents(false)}
               >
                 Close
               </button>
