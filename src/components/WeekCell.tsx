@@ -13,18 +13,21 @@ const WeekCell = ({ hours, index }: CalendarCellProps) => {
 
   const test = [
     {
+      id: 1,
       title: 'Birthday',
       from: dayjs().hour(1),
       to: dayjs().hour(4),
       color: 'bg-yellow-200',   
     },
     {
+      id: 2,
       title: 'Meeting',
       from: dayjs().hour(10),
       to: dayjs().hour(14),
       color: 'bg-blue-300',   
     },
     {
+      id: 3,
       title: 'Meeting 2',
       from: dayjs().hour(12),
       to: dayjs().hour(14),
