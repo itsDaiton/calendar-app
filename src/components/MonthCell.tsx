@@ -10,9 +10,13 @@ type CalendarCellProps = {
   numberOfRows: number;
   isCurrentMonth: boolean;
   isToday: boolean;
+  year: number;
+  month: number;
+  week: number;
+  view: string;
 }
 
-const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCellProps) => {
+const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, month, view }: CalendarCellProps) => {
 
   const [showModalEvents, setShowModalEvents] = useState<boolean>(false)
   const [showModalOperationsAdd, setShowModalOperationsAdd] = useState<boolean>(false)
@@ -47,7 +51,7 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday }: CalendarCell
   useEffect(() => {
     const items: EventType[] = loadEvents()
     setEvents(items)
-  }, [showModalOperationsAdd,, showModalOperationsEdit, showModalSingleEvent])
+  }, [showModalOperationsAdd,, showModalOperationsEdit, showModalSingleEvent, year, month, week, view])
 
   const sameDayEvents: EventType[] = events.filter(
     (event) => date.isSame(event.from, 'date')).sort(

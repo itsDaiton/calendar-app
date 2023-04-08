@@ -62,6 +62,10 @@ const Calendar = () => {
           numberOfRows={numberOfRows} 
           isCurrentMonth={isCurrentMonth} 
           isToday={isToday}
+          year={year}
+          month={month}
+          week={week}
+          view={view}
         />
         )
       }
