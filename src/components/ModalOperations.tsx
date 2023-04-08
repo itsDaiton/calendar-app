@@ -56,6 +56,10 @@ type ModalProps = {
 const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
 
   const [eventInputs, setEventsInputs] = useState<EventInputProps>(defaultInputs)
+  const [titleError, setTitleError] = useState<string>('')
+  const [fromError, setFromError] = useState<string>('')
+  const [toError, setToError] = useState<string>('')
+
   const hours: dayjs.Dayjs[] = []
 
   for (let i = 1; i <= 24; i++) {
@@ -69,6 +73,12 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
     }
   }
 
+  const clearErrors = (): void => {
+    setTitleError('')
+    setFromError('')
+    setToError('')
+  }
+
   const handleChange = (e: React.FormEvent<HTMLInputElement> | ChangeEvent<HTMLSelectElement>): void => {
     setEventsInputs({
       ...eventInputs,
@@ -78,45 +88,58 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
 
   const handleSubmit = (e: React.MouseEvent<HTMLButtonElement>): void => {
     e.preventDefault()
+    clearErrors()
 
-    let color = eventInputs.color
+    let color: string = eventInputs.color
 
     if (validator.isEmpty(eventInputs.title)) {
-      //TODO
+      setTitleError('Title is required.')
     }
+
     if (validator.isEmpty(eventInputs.from)) {
-      //TODO
+      setFromError('Start of event is required.')
     }
+
     if (validator.isEmpty(eventInputs.to)) {
-      //TODO   
+      setToError('End of event is required.')
     }
+
     if (validator.isEmpty(eventInputs.color)) {
       color = 'bg-black'
     }
 
     if (dayjs(eventInputs.from).isAfter(dayjs(eventInputs.to))) {
-      //TODO
-    }
-    
-    const newEvent: EventType = {
-      title: eventInputs.title,
-      from: dayjs(eventInputs.from),
-      to: dayjs(eventInputs.to),
-      color: color,
+      setFromError('Event cannot go the past.')
+      setToError('Event cannot go the past.')
     }
 
-    const data: string | null = localStorage.getItem('events')
+    if (
+      !validator.isEmpty(eventInputs.title) && 
+      !validator.isEmpty(eventInputs.from) && 
+      !validator.isEmpty(eventInputs.to) &&
+      (dayjs(eventInputs.from).isBefore(dayjs(eventInputs.to)) || 
+      dayjs(eventInputs.from).isSame(dayjs(eventInputs.to)))) {
 
-    if (data) {
-      const items: EventType[] = JSON.parse(data)
-      localStorage.setItem('events', JSON.stringify([...items, newEvent]))
+      const newEvent: EventType = {
+        title: eventInputs.title,
+        from: dayjs(eventInputs.from),
+        to: dayjs(eventInputs.to),
+        color: color,
+      }
+  
+      const data: string | null = localStorage.getItem('events')
+  
+      if (data) {
+        const items: EventType[] = JSON.parse(data)
+        localStorage.setItem('events', JSON.stringify([...items, newEvent]))
+      }
+      else {
+        const events: EventType[] = []
+        events.push(newEvent)
+        localStorage.setItem('events', JSON.stringify(events))
+      }
+      setShowModal(false)  
     }
-    else {
-      const events: EventType[] = []
-      events.push(newEvent)
-      localStorage.setItem('events', JSON.stringify(events))
-    }
-    setShowModal(false)
   }
 
   return (
@@ -147,7 +170,7 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
               <div>
                 <label 
                   htmlFor='title'
-                  className='flex text-[18px] text-black mb-2'
+                  className={`flex text-[18px] text-black mb-2 ${titleError !== '' ? 'text-red-500' : '' }`}
                 >
                   Title
                 </label>
@@ -158,14 +181,17 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
                   value={eventInputs.title}
                   onChange={handleChange}
                   placeholder='Title'
-                  className='bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
-                  placeholder:text-black'
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  placeholder:text-black ${titleError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500' : '' }`}
                 />
+                <p className='pl-1 mt-2 text-sm text-red-600'>
+                  {titleError}
+                </p>
               </div>
               <div>
                 <label 
                   htmlFor='from'
-                  className='flex text-[18px] text-black my-2'
+                  className={`flex text-[18px] text-black mb-2 ${fromError !== '' ? 'text-red-500' : '' }`}
                 >
                   From
                 </label>
@@ -174,18 +200,22 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
                   name='from'
                   value={eventInputs.from}
                   onChange={handleChange}
-                  className='bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none'
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  ${fromError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
                   <option>Choose an hour</option>
                   {hours.map((hour, i) => (
                     <option key={i} value={hour.format()} >{hour.format('HH:mm')}</option>
                   ))}             
                 </select>
+                <p className='pl-1 mt-2 text-sm text-red-600'>
+                  {fromError}
+                </p>
               </div>
               <div>
                 <label 
                   htmlFor='to'
-                  className='flex text-[18px] text-black my-2'
+                  className={`flex text-[18px] text-black mb-2 ${toError !== '' ? 'text-red-500' : '' }`}
                 >
                   To
                 </label>
@@ -194,13 +224,17 @@ const ModalOperations = ({ date, setShowModal, showModal }: ModalProps) => {
                   name='to'
                   value={eventInputs.to}
                   onChange={handleChange}
-                  className='bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none'
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  ${toError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
                   <option>Choose an hour</option>
                   {hours.map((hour, i) => (
                     <option key={i} value={hour.format()} >{hour.format('HH:mm')}</option>
                   ))}
                 </select>
+                <p className='pl-1 mt-2 text-sm text-red-600'>
+                  {toError}
+                </p>
               </div>
               <div>
                 <label 
