@@ -53,9 +53,10 @@ type ModalProps = {
   showModal: boolean;
   mode: string;
   event?: EventType;
+  view: string;
 }
 
-const ModalOperations = ({ date, setShowModal, showModal, mode, event }: ModalProps) => {
+const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: ModalProps) => {
 
   const [eventInputs, setEventsInputs] = useState<EventInputProps>(defaultInputs)
   const [titleError, setTitleError] = useState<string>('')
@@ -64,24 +65,43 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event }: ModalPr
 
   const hours: dayjs.Dayjs[] = []
 
-  for (let i = 1; i <= 24; i++) {
+  for (let i = 0; i <= 23; i++) {
     const hour: dayjs.Dayjs = date.hour(i).minute(0)
     hours.push(hour)
   }
 
   useEffect(() => {
-    if (mode === 'edit') {
-      if (event) {
-        setEventsInputs({           
-          title: event?.title,
-          from: '',
-          to: '',
-          color: event?.color,
-        }) 
-      }  
+    if (view === 'month') {
+      if (mode === 'edit') {
+        if (event) {
+          setEventsInputs({           
+            title: event?.title,
+            from: event?.from.format(),
+            to: event?.to.format(),
+            color: event?.color,
+          })
+        }  
+      }
     }
-  }, [])
-  
+    else {
+      if (mode === 'add') {
+        setEventsInputs({
+          ...eventInputs,
+          from: date.format()
+        })
+      }
+      else {
+        if (event) {
+          setEventsInputs({           
+            title: event?.title,
+            from: event?.from.format(),
+            to: event?.to.format(),
+            color: event?.color,
+          })
+        }      
+      }
+    }
+  }, []) 
 
   const clickOutside = (): void => {
     if (showModal) {
@@ -193,7 +213,7 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event }: ModalPr
   return (
     <div>
       <div
-        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 cursor-default'
+        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 cursor-default font-poppins font-medium'
         onClick={clickOutside}
       >
         <div className='relative w-auto my-6 mx-auto max-w-2xl text-black'>
@@ -264,7 +284,7 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event }: ModalPr
                 >
                   <option>{mode === 'edit' ? 'Choose an new hour' : 'Choose an hour' }</option>
                   {hours.map((hour, i) => (
-                    <option key={i} value={hour.format()} >{hour.format('HH:mm')}</option>
+                    <option key={i} value={hour.format()}>{hour.format('HH:mm')}</option>
                   ))}             
                 </select>
                 <p className='pl-1 mt-2 text-sm text-red-600'>

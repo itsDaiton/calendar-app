@@ -79,7 +79,7 @@ const Calendar = () => {
         const isCurrentMonth: boolean = date.month() === month
         const isToday: boolean = date.isSame(dayjs(), 'day')
 
-        for (let j = 1; j <= 24; j++) {
+        for (let j = 0; j <= 23; j++) {
           const hour: dayjs.Dayjs = date.hour(j)
           hours.push(hour)
         }
@@ -113,6 +113,10 @@ const Calendar = () => {
             hours={hours}
             index={i}
             key={i}
+            year={year}
+            month={month}
+            week={week}
+            view={view}
           />
         )
       }

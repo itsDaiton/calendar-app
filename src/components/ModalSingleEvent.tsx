@@ -41,7 +41,7 @@ const ModalSingleEvent = ({setShowModalSingleEvent, showModalSingleEvent, setSho
   return (
     <div>
       <div
-        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50'
+        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 font-poppins font-medium'
         onClick={clickOutside}
       >
         <div className='relative w-auto my-6 mx-auto max-w-2xl text-black'>

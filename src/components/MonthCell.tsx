@@ -16,6 +16,23 @@ type CalendarCellProps = {
   view: string;
 }
 
+export const loadEvents = (): EventType[] => {
+  const data: string | null = localStorage.getItem('events')
+  if (data) {
+    const items: EventType[] = JSON.parse(data)
+    return items.map((event: EventType) => ({
+      id: event.id,
+      title: event.title,
+      from: dayjs(event.from),
+      to: dayjs(event.to),
+      color: event.color
+    }))
+  } 
+  else {
+    return []
+  }
+}
+
 const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, month, view }: CalendarCellProps) => {
 
   const [showModalEvents, setShowModalEvents] = useState<boolean>(false)
@@ -25,23 +42,6 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
   const [events, setEvents] = useState<EventType[]>([])
   const [selectedEvent, setSelectedEvent] = useState<EventType>()
   
-  const loadEvents = (): EventType[] => {
-    const data: string | null = localStorage.getItem('events')
-    if (data) {
-      const items: EventType[] = JSON.parse(data)
-      return items.map((event: EventType) => ({
-        id: event.id,
-        title: event.title,
-        from: dayjs(event.from),
-        to: dayjs(event.to),
-        color: event.color
-      }))
-    } 
-    else {
-      return []
-    }
-  }
-
   const addEvent = (e: React.MouseEvent<HTMLDivElement>): void => {
     if (e.target === e.currentTarget) {
       setShowModalOperationsAdd(true)
@@ -124,15 +124,17 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
           date={date} 
           setShowModal={setShowModalOperationsAdd} 
           showModal={showModalOperationsAdd}
+          view={view}
         />  
       }
-      {showModalOperationsEdit &&
+      {(showModalOperationsEdit && selectedEvent) &&
         <ModalOperations
           mode='edit'
-          date={date} 
+          date={selectedEvent?.from} 
           setShowModal={setShowModalOperationsEdit} 
           showModal={showModalOperationsEdit}
           event={selectedEvent}
+          view={view}
         />  
       }
       {(showModalSingleEvent && selectedEvent) &&
