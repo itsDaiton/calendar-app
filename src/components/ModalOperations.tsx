@@ -1,9 +1,37 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { EventType, colors } from '../../utils/data';
+import { EventType } from '../../utils/data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faPen } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import validator from 'validator';
+
+type ColorProps = {
+  id: number;
+  value: string;
+}
+
+export const colors: ColorProps[] = [
+  {
+    id: 1,
+    value: 'bg-sky-400',
+  },
+  {
+    id: 2,
+    value: 'bg-green-500',
+  },
+  {
+    id: 3,
+    value: 'bg-red-500',
+  },
+  {
+    id: 4,
+    value: 'bg-amber-500',
+  },
+  {
+    id: 5,
+    value: 'bg-fuchsia-600',
+  },
+]
 
 type EventInputProps = {
   title: string;

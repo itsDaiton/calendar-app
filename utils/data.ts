@@ -94,32 +94,3 @@ export type EventType = {
   to: dayjs.Dayjs;
   color: string;
 }
-
-
-type ColorProps = {
-  id: number;
-  value: string;
-}
-
-export const colors: ColorProps[] = [
-  {
-    id: 1,
-    value: 'bg-blue-600',
-  },
-  {
-    id: 2,
-    value: 'bg-green-500',
-  },
-  {
-    id: 3,
-    value: 'bg-red-500',
-  },
-  {
-    id: 4,
-    value: 'bg-amber-500',
-  },
-  {
-    id: 5,
-    value: 'bg-fuchsia-600',
-  },
-]
