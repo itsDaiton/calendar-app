@@ -121,7 +121,7 @@ const Calendar = () => {
   }
 
   return (
-    <div className='w-[85vw] h-[90vh]'>
+    <div className='w-[100vw] h-[90vh]'>
       <div className={`h-full ${view === 'week' ? 'overflow-scroll' : ''}`}>
         <div className={`flex flex-row justify-center items-center font-poppins font-semibold text-[22px]
         ${view === 'week' ? 'h-[4%]' : 'h-[5%]'}`}

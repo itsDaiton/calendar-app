@@ -1,4 +1,4 @@
-import { Calendar, Header, Sidebar } from './components'
+import { Calendar, Header } from './components'
 import { Provider } from 'react-redux'
 import { store } from '../utils/store'
 
@@ -8,10 +8,7 @@ const App = () => {
     <Provider store={store}>
       <div>
         <Header/>
-        <div className='flex flex-row h-[90vh]'>
-          <Sidebar/>
-          <Calendar/>
-        </div>
+        <Calendar/>
       </div>
     </Provider>
   )
