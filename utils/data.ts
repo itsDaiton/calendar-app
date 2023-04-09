@@ -1,3 +1,4 @@
+import { current } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 
@@ -50,7 +51,14 @@ export const getCurrentYear = (): number => {
 }
 
 export const getCurrentWeek = (): number => {
-  return currentDate.week()
+  let currentWeek: number
+  if (currentDate.day(0)) {
+    currentWeek = currentDate.subtract(1, 'week').week()
+  }
+  else {
+    currentWeek = currentDate.week()
+  }
+  return currentWeek
 }
 
 export const getFirstDayOfWeek = (year: number, month: number, week: number): dayjs.Dayjs => {

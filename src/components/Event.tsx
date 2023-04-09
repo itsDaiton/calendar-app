@@ -1,30 +1,24 @@
 import { EventType } from '../../utils/data';
-import { useAppSelector } from '../../utils/hooks';
-import { selectView } from '../slices/viewSlice';
 
-const Event = ({ title, from, to, color }: EventType) => {
-  const view: string = useAppSelector(selectView)
+type EventProps = {
+  event: EventType;
+  height: string;
+  top: string;
+  width: string;
+  left: string;
+  eventsPerDay: number;
+}
 
-  if (view === 'week') { 
-    const start: number = from.hour()
-    const end: number = to.hour()
-    const top: string = `${(start / 24) * 100}%`
-    const height: string = `${((end - start) / 24) * 100}%`
+const Event = ({ event, height, top, width, left, eventsPerDay }: EventProps) => {
 
-    return (
-      <div
-        className={`absolute left-0 ${color} w-full rounded-xl pt-2 pl-2 text-gray-800`}
-        style={{ top, height }}
-      >
-        {title}
-      </div>
-    )
-  }
-  else {
-    return (
-      <div>TODO - month view</div>
-    )
-  }
+  return (
+    <div
+      className={`absolute ${event.color} rounded-xl pt-2 pl-2 text-gray-800`}
+      style={{ top, left, height, width }}
+    >
+      {eventsPerDay > 2 ? '' : event.title}
+    </div>
+  )
 }
 
 export default Event
