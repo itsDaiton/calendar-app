@@ -1,10 +1,9 @@
-import { current } from "@reduxjs/toolkit";
 import dayjs from "dayjs";
 import weekOfYear from 'dayjs/plugin/weekOfYear'
 
 dayjs.extend(weekOfYear)
 
-interface daysOfWeekDay {
+export interface daysOfWeekDay {
   id: number;
   value: string;
 }
@@ -12,31 +11,31 @@ interface daysOfWeekDay {
 export const daysOfWeek : daysOfWeekDay[] = [
   {
     id: 1,
-    value: "Mon",
+    value: 'Mon',
   },
   {
     id: 2,
-    value: "Tue",
+    value: 'Tue',
   },
   {
     id: 3,
-    value: "Wed",
+    value: 'Wed',
   },
   {
     id: 4,
-    value: "Thu",
+    value: 'Thu',
   },
   {
     id: 5,
-    value: "Fri",
+    value: 'Fri',
   },
   {
     id: 6,
-    value: "Sat",
+    value: 'Sat',
   },
   {
     id: 7,
-    value: "Sun",
+    value: 'Sun',
   },
 ]
 
@@ -78,13 +77,13 @@ interface viewTypesType {
 export const viewTypes: viewTypesType[] = [
   {
     id: 1,
-    value: "week",
-    text: "Week"
+    value: 'week',
+    text: 'Week'
   },
   {
     id: 2,
-    value: "month",
-    text: "Month"
+    value: 'month',
+    text: 'Month'
   },
 ]
 
@@ -95,3 +94,32 @@ export type EventType = {
   to: dayjs.Dayjs;
   color: string;
 }
+
+
+type ColorProps = {
+  id: number;
+  value: string;
+}
+
+export const colors: ColorProps[] = [
+  {
+    id: 1,
+    value: 'bg-blue-600',
+  },
+  {
+    id: 2,
+    value: 'bg-green-500',
+  },
+  {
+    id: 3,
+    value: 'bg-red-500',
+  },
+  {
+    id: 4,
+    value: 'bg-amber-500',
+  },
+  {
+    id: 5,
+    value: 'bg-fuchsia-600',
+  },
+]

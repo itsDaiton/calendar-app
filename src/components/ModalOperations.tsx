@@ -1,37 +1,9 @@
 import { ChangeEvent, useEffect, useState } from 'react';
-import { EventType } from '../../utils/data';
+import { EventType, colors } from '../../utils/data';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faPen } from '@fortawesome/free-solid-svg-icons';
 import dayjs from 'dayjs';
 import validator from 'validator';
-
-type ColorProps = {
-  id: number;
-  value: string;
-}
-
-const colors: ColorProps[] = [
-  {
-    id: 1,
-    value: 'bg-sky-500',
-  },
-  {
-    id: 2,
-    value: 'bg-teal-500',
-  },
-  {
-    id: 3,
-    value: 'bg-red-500',
-  },
-  {
-    id: 4,
-    value: 'bg-amber-600',
-  },
-  {
-    id: 5,
-    value: 'bg-violet-900',
-  },
-]
 
 type EventInputProps = {
   title: string;
@@ -48,15 +20,15 @@ const defaultInputs: EventInputProps = {
 }
 
 type ModalProps = {
-  date: dayjs.Dayjs
-  setShowModal: (value: React.SetStateAction<boolean>) => void
-  showModal: boolean;
+  date: dayjs.Dayjs;
   mode: string;
   event?: EventType;
   view: string;
+  showModal: boolean;
+  setShowModal: (value: React.SetStateAction<boolean>) => void;
 }
 
-const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: ModalProps) => {
+const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: ModalProps) => {
 
   const [eventInputs, setEventsInputs] = useState<EventInputProps>(defaultInputs)
   const [titleError, setTitleError] = useState<string>('')
@@ -70,17 +42,21 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
     hours.push(hour)
   }
 
+  const loadInputs = (): void => {
+    if (event) {
+      setEventsInputs({           
+        title: event?.title,
+        from: event?.from.format(),
+        to: event?.to.format(),
+        color: event?.color,
+      })   
+    }
+  }
+
   useEffect(() => {
     if (view === 'month') {
       if (mode === 'edit') {
-        if (event) {
-          setEventsInputs({           
-            title: event?.title,
-            from: event?.from.format(),
-            to: event?.to.format(),
-            color: event?.color,
-          })
-        }  
+        loadInputs()
       }
     }
     else {
@@ -91,14 +67,7 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
         })
       }
       else {
-        if (event) {
-          setEventsInputs({           
-            title: event?.title,
-            from: event?.from.format(),
-            to: event?.to.format(),
-            color: event?.color,
-          })
-        }      
+        loadInputs()   
       }
     }
   }, []) 
@@ -159,12 +128,17 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
       setToError('Event cannot go the past.')
     }
 
+    if (dayjs(eventInputs.from).isSame(dayjs(eventInputs.to))) {
+      setFromError('Event must be long at least 1 hour.')
+      setToError('Event must be long at least 1 hour.')
+    }
+
     if (
       !validator.isEmpty(eventInputs.title) && 
       !validator.isEmpty(eventInputs.from) && 
       !validator.isEmpty(eventInputs.to) &&
-      (dayjs(eventInputs.from).isBefore(dayjs(eventInputs.to)) || 
-      dayjs(eventInputs.from).isSame(dayjs(eventInputs.to)))) {
+      (dayjs(eventInputs.from).isBefore(dayjs(eventInputs.to)) && 
+      !dayjs(eventInputs.from).isSame(dayjs(eventInputs.to)))) {
   
       const data: string | null = localStorage.getItem('events')
   
@@ -172,7 +146,7 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
         const items: EventType[] = JSON.parse(data)
 
         if (mode === 'edit') {
-          const editedEvent = items.find(item => item.id === event?.id)
+          const editedEvent: EventType | undefined = items.find(item => item.id === event?.id)
           if (editedEvent) {
             editedEvent.color = eventInputs.color
             editedEvent.from = dayjs(eventInputs.from)
@@ -182,7 +156,7 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
           localStorage.setItem('events', JSON.stringify(items))         
         }
         else {
-          const lastIndex = items[items.length - 1].id
+          const lastIndex: number = items[items.length - 1].id
           const newEvent: EventType = {       
             id: lastIndex + 1,
             title: eventInputs.title,
@@ -205,7 +179,6 @@ const ModalOperations = ({ date, setShowModal, showModal, mode, event, view }: M
         events.push(newEvent)
         localStorage.setItem('events', JSON.stringify(events))
       }
-
       setShowModal(false)  
     }
   }

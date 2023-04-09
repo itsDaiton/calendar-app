@@ -6,6 +6,9 @@ import { selectMonth, selectWeek, selectYear } from '../slices/dateSlice';
 import { selectView } from '../slices/viewSlice';
 import MonthCell from './MonthCell';
 import WeekCell from './WeekCell';
+import WeekDayName from './WeekDayName';
+import WeekDayValue from './WeekDayValue';
+import MonthDayName from './MonthDayName';
 
 const Calendar = () => {
 
@@ -56,22 +59,22 @@ const Calendar = () => {
         const isToday: boolean = date.isSame(dayjs(), 'day')
       
         cells.push(
-        <MonthCell 
-          key={i} 
-          date={date}
-          numberOfRows={numberOfRows} 
-          isCurrentMonth={isCurrentMonth} 
-          isToday={isToday}
-          year={year}
-          month={month}
-          week={week}
-          view={view}
-        />
+          <MonthCell 
+            key={i} 
+            date={date}
+            numberOfRows={numberOfRows} 
+            isCurrentMonth={isCurrentMonth} 
+            isToday={isToday}
+            year={year}
+            month={month}
+            week={week}
+            view={view}
+          />
         )
       }
     }
     else {
-      const startOfWeek = getFirstDayOfWeek(year, month, week)
+      const startOfWeek: dayjs.Dayjs = getFirstDayOfWeek(year, month, week)
 
       for (let i = 0; i < 7; i++) {
         const date: dayjs.Dayjs = startOfWeek.add(i, 'day')
@@ -85,27 +88,21 @@ const Calendar = () => {
         }
 
         weekDaysNames.push(
-          <p 
-            key={i} 
-            className={`w-[14.28%] h-full px-4 text-center border-r-2 bg-slate-100 
-            ${viewType === 'month' ? 'border-b-2' : ''}
-            ${isCurrentMonth ? 'text-black' : 'text-slate-400'}`}
-          >
-            {date.locale('en').format('dddd').substring(0, 3)}
-          </p>        
+          <WeekDayName
+            key={i}
+            date={date}
+            isCurrentMonth={isCurrentMonth}
+            view={view}
+          />        
         )
 
         weekDaysValues.push(
-          <div 
-            key={i} 
-            className='w-[14.28%] h-full px-4 rounded text-center border-r-2 border-b-2 bg-slate-100 flex justify-center items-center pb-2'
-          >
-            <div className={`w-[35px] h-[35px] rounded-full flex justify-center items-center 
-            ${isToday ? 'bg-purple-700 text-white' : ''}
-            ${isCurrentMonth ? 'text-black' : 'text-slate-400'}`}>
-              <p>{date.date()}</p>
-            </div>
-          </div>
+          <WeekDayValue
+            key={i}
+            date={date}
+            isCurrentMonth={isCurrentMonth}
+            isToday={isToday}
+          />
         )
 
         cells.push(
@@ -121,7 +118,7 @@ const Calendar = () => {
         )
       }
     }
-    return cells;
+    return cells
   }
 
   return (
@@ -132,13 +129,12 @@ const Calendar = () => {
         >
           {view === 'month' ?
             daysOfWeek.map((day) => (
-              <p key={day.id} className={`w-[14.28%] h-full px-4 text-center border-r-2 bg-slate-100 
-              ${view === 'month' ? 'border-b-2' : ''}`}
-              >
-                {day.value}
-              </p>          
-            )) : 
-            weekDaysNames
+              <MonthDayName
+                key={day.id}
+                day={day}
+                view={view}
+              />        
+            )) : weekDaysNames
           }
         </div>
         {view === 'week' ?

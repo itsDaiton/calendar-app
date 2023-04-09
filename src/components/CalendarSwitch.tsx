@@ -5,9 +5,6 @@ import { selectMonth, selectWeek, selectYear, setMonth, setWeek, setYear } from 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { selectView } from '../slices/viewSlice'
 import { getFirstDayOfMonth, getFirstDayOfWeek} from '../../utils/data'
-import isLeapYear from 'dayjs/plugin/isLeapYear'
-
-dayjs.extend(isLeapYear)
 
 const CalendarSwitch = () => {
 
@@ -18,14 +15,14 @@ const CalendarSwitch = () => {
   const dispatch = useAppDispatch()
 
   // week view
-  const currentWeekFirstDay = getFirstDayOfWeek(year, month, week)
+  const currentWeekFirstDay: dayjs.Dayjs = getFirstDayOfWeek(year, month, week)
   // month view
-  const currentMonthFirstDay = getFirstDayOfMonth(year, month)
+  const currentMonthFirstDay: dayjs.Dayjs = getFirstDayOfMonth(year, month)
 
   const movePreviousMonth = (): void => {
-    const previousWeekFirstDay = currentWeekFirstDay.subtract(1, 'week')
-    const previousWeekMonth = previousWeekFirstDay.month()
-    const previousWeekYear = previousWeekFirstDay.year()
+    const previousWeekFirstDay: dayjs.Dayjs = currentWeekFirstDay.subtract(1, 'week')
+    const previousWeekMonth: number = previousWeekFirstDay.month()
+    const previousWeekYear: number = previousWeekFirstDay.year()
 
     if (view === 'week') {   
       if (previousWeekMonth !== month) {
@@ -43,8 +40,8 @@ const CalendarSwitch = () => {
       )
     }
     else {
-      const previousMonthFirstDay = currentMonthFirstDay.subtract(1, 'month')
-      const previousMonthYear = previousMonthFirstDay.year()
+      const previousMonthFirstDay: dayjs.Dayjs = currentMonthFirstDay.subtract(1, 'month')
+      const previousMonthYear: number = previousMonthFirstDay.year()
 
       if (previousMonthYear !== year) {
         dispatch(
@@ -61,9 +58,9 @@ const CalendarSwitch = () => {
   }
 
   const moveNextMonth = (): void => {
-    const nextWeekFirstDay = currentWeekFirstDay.add(1, 'week')
-    const nextWeekMonth = nextWeekFirstDay.month()
-    const nextWeekYear = nextWeekFirstDay.year()
+    const nextWeekFirstDay: dayjs.Dayjs = currentWeekFirstDay.add(1, 'week')
+    const nextWeekMonth: number = nextWeekFirstDay.month()
+    const nextWeekYear: number = nextWeekFirstDay.year()
 
     if (view === 'week') {   
       if (nextWeekMonth !== month) {
@@ -81,8 +78,8 @@ const CalendarSwitch = () => {
       )
     }
     else {
-      const nextMonthFirstDay = currentMonthFirstDay.add(1, 'month')
-      const nextMonthYear = nextMonthFirstDay.year()
+      const nextMonthFirstDay: dayjs.Dayjs = currentMonthFirstDay.add(1, 'month')
+      const nextMonthYear: number = nextMonthFirstDay.year()
 
       if (nextMonthYear !== year) {
         dispatch(

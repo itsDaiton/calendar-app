@@ -113,7 +113,6 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
           setShowModalEvents={setShowModalEvents}
           showModalEvents={showModalEvents}
           setShowModalSingleEvent={setShowModalSingleEvent}
-          showModalSingleEvent={showModalSingleEvent}
           date={date}
           setSelectedEvent={setSelectedEvent}
         />  
@@ -142,7 +141,6 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
           setShowModalSingleEvent={setShowModalSingleEvent}
           showModalSingleEvent={showModalSingleEvent}
           setShowModalOpeartions={setShowModalOperationsEdit}
-          showModalOperations={showModalOperationsEdit}
           event={selectedEvent}
         />
       }

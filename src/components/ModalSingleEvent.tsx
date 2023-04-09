@@ -4,14 +4,13 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCalendarDays, faPen, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 type ModalProps = {
-  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
+  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void;
   showModalSingleEvent: boolean;
-  setShowModalOpeartions: (value: React.SetStateAction<boolean>) => void
-  showModalOperations: boolean;
+  setShowModalOpeartions: (value: React.SetStateAction<boolean>) => void;
   event: EventType;
 }
 
-const ModalSingleEvent = ({setShowModalSingleEvent, showModalSingleEvent, setShowModalOpeartions, event }: ModalProps) => {
+const ModalSingleEvent = ({ setShowModalSingleEvent, showModalSingleEvent, setShowModalOpeartions, event }: ModalProps) => {
 
   const clickOutside = (): void => {
     if (showModalSingleEvent) {
@@ -22,7 +21,7 @@ const ModalSingleEvent = ({setShowModalSingleEvent, showModalSingleEvent, setSho
   const deleteEvent = (): void => {
     const data: string | null = localStorage.getItem('events') || ''
     const items: EventType[] = JSON.parse(data)
-    const newItems = items.filter(item => item.id !== event.id)
+    const newItems: EventType[] = items.filter(item => item.id !== event.id)
 
     if (newItems.length === 0) {
       localStorage.removeItem('events')
@@ -93,7 +92,7 @@ const ModalSingleEvent = ({setShowModalSingleEvent, showModalSingleEvent, setSho
           </div>
         </div>
       </div>
-      <div className='opacity-50 fixed inset-0 z-40 bg-black'/>
+      <div className='opacity-40 fixed inset-0 z-40 bg-black'/>
     </div>
     
   )

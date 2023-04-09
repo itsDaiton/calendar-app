@@ -1,5 +1,5 @@
 import dayjs from 'dayjs'
-import Event from './Event'
+import WeekEvent from './WeekEvent'
 import isBetween from 'dayjs/plugin/isBetween'
 import { EventType } from '../../utils/data'
 import { useEffect, useState } from 'react'
@@ -71,7 +71,7 @@ const WeekCell = ({ hours, index, year, month, week, view }: CalendarCellProps) 
         const left: string = `${i * (100 / eventsPerDay.length)}%`
 
         return (
-          <Event
+          <WeekEvent
             key={event.id}
             event={event}
             height={height}
@@ -81,7 +81,6 @@ const WeekCell = ({ hours, index, year, month, week, view }: CalendarCellProps) 
             eventsPerDay={eventsPerDay.length}
             setSelectedEvent={setSelectedEvent}
             setShowModalSingleEvent={setShowModalSingleEvent}
-            showModalSingleEvent={showModalSingleEvent}
           />
         )
       })}
@@ -109,7 +108,6 @@ const WeekCell = ({ hours, index, year, month, week, view }: CalendarCellProps) 
           setShowModalSingleEvent={setShowModalSingleEvent}
           showModalSingleEvent={showModalSingleEvent}
           setShowModalOpeartions={setShowModalOperationsEdit}
-          showModalOperations={showModalOperationsEdit}
           event={selectedEvent}
         />
       }

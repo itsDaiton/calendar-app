@@ -8,12 +8,10 @@ type EventProps = {
   left: string;
   eventsPerDay: number;
   setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
-  showModalSingleEvent: boolean;
   setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void
 }
 
-const Event = ({ event, height, top, width, left, eventsPerDay, setSelectedEvent, setShowModalSingleEvent, showModalSingleEvent }: EventProps) => {
-
+const Event = ({ event, height, top, width, left, eventsPerDay, setSelectedEvent, setShowModalSingleEvent }: EventProps) => {
   return (
     <div
       className={`absolute ${event.color} rounded-xl pt-2 pl-2 text-white font-poppins font-medium cursor-pointer`}

@@ -4,25 +4,20 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faLayerGroup } from "@fortawesome/free-solid-svg-icons";
 
 type ModalProps = {
-  date: dayjs.Dayjs
-  events: EventType[]
-  setShowModalEvents: (value: React.SetStateAction<boolean>) => void
+  date: dayjs.Dayjs;
+  events: EventType[];
   showModalEvents: boolean;
-  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
-  showModalSingleEvent: boolean;
-  setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void
+  setShowModalEvents: (value: React.SetStateAction<boolean>) => void;
+  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void;
+  setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void;
 }
 
-const ModalEvents = ({ date, events, setShowModalEvents, showModalEvents, setShowModalSingleEvent, showModalSingleEvent, setSelectedEvent }: ModalProps) => {
+const ModalEvents = ({ date, events, showModalEvents,setShowModalEvents, setShowModalSingleEvent, setSelectedEvent }: ModalProps) => {
 
   const clickOutside = (): void => {
     if (showModalEvents) {
       setShowModalEvents(false)
     }
-  }
-
-  const openEvent = (id: number): void => {
-
   }
 
   return (
@@ -76,7 +71,7 @@ const ModalEvents = ({ date, events, setShowModalEvents, showModalEvents, setSho
           </div>
         </div>
       </div>
-      <div className='opacity-10 fixed inset-0 z-40 bg-black'/>
+      <div className='opacity-40 fixed inset-0 z-40 bg-black'/>
     </div>
   )
 }
