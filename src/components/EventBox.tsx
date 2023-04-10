@@ -6,10 +6,10 @@ type EventBoxProps = {
   start: string;
   end: string;
   setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void;
-  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
+  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void;
 }
 
-const EventBox = ({ event, start, end, setSelectedEvent, setShowModalSingleEvent}: EventBoxProps) => {
+const EventBox = ({ event, start, end, setSelectedEvent, setShowModalSingleEvent }: EventBoxProps) => {
   return (
     <div 
         className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2 cursor-pointer`}

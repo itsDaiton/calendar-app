@@ -7,8 +7,8 @@ type EventProps = {
   width: string;
   left: string;
   eventsPerDay: number;
-  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void
-  setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void
+  setShowModalSingleEvent: (value: React.SetStateAction<boolean>) => void;
+  setSelectedEvent: (value: React.SetStateAction<EventType | undefined>) => void;
 }
 
 const Event = ({ event, height, top, width, left, eventsPerDay, setSelectedEvent, setShowModalSingleEvent }: EventProps) => {

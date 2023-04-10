@@ -139,10 +139,11 @@ const Calendar = () => {
           }
         </div>
         {view === 'week' ?
-        <div className='flex flex-row justify-center items-center font-poppins font-semibold text-[22px] h-[5%]'>
-          {weekDaysValues}
-        </div>
-        : ''
+          <div className='flex flex-row justify-center items-center font-poppins font-semibold text-[22px] h-[5%]'>
+            {weekDaysValues}
+          </div>
+          : 
+          ''
         }
         <div className='flex justify-center h-[95%]'>
           <div className='flex justify-center flex-wrap w-full'>

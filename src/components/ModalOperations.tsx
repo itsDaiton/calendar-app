@@ -10,7 +10,7 @@ type ColorProps = {
   value: string;
 }
 
-export const colors: ColorProps[] = [
+const colors: ColorProps[] = [
   {
     id: 1,
     value: 'bg-sky-400',
