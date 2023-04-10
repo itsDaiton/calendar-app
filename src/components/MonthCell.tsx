@@ -91,7 +91,7 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
       onClick={addEvent}
     >   
       <div 
-        className={`md:w-[10px] w-[5px] md:h-[10px] h-[5px] md:p-5 p-3 mt-1 flex items-center justify-center rounded-full cursor-default 
+        className={`md:w-[10px] w-[5px] md:h-[10px] h-[5px] md:p-5 p-3 mt-1 flex items-center select-none justify-center rounded-full cursor-default 
         ${isToday ? 'bg-purple-700 text-white' : ''}`}
       >
         <p>{date.date()}</p>

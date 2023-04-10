@@ -24,7 +24,7 @@ const Header = () => {
 
   return (
     <div className='flex justify-between items-center font-poppins border-b-2 sm:px-6 px-3 h-[10vh]'>
-      <div className='flex md:w-1/3 sm:w-[10%] w-fit justify-start space-x-4'>
+      <div className='flex md:w-1/3 sm:w-[10%] w-fit justify-start space-x-4 select-none'>
         <FontAwesomeIcon icon={faCalendarDays} className='xl:text-[36px] es:text-[30px] text-[24px]'/>
         <p className='text-center xl:text-[28px] text-[24px] font-semibold md:flex hidden'>Calendar</p>
       </div>
