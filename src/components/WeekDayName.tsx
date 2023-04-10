@@ -9,7 +9,7 @@ type WeekDayNameProps = {
 const WeekDayName = ({ view, isCurrentMonth, date }: WeekDayNameProps) => {
   return (
     <p 
-    className={`w-[14.28%] h-full px-4 text-center border-r-2 bg-slate-100 
+    className={`w-[14.28%] h-full lg:px-4 px-0 text-center border-r-2 bg-slate-100 
     ${view === 'month' ? 'border-b-2' : ''}
     ${isCurrentMonth ? 'text-black' : 'text-slate-400'}`}
   >

@@ -85,13 +85,13 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
 
   return (
     <div
-      className={`w-[14.28%] px-4 flex justify-start font-poppins text-[16px] font-medium border-b-2 border-r-2 flex-col
+      className={`w-[14.28%] md:px-4 px-1 flex justify-start font-poppins md:text-[16px] es:text-[14px] text-[12px] font-medium border-b-2 border-r-2 flex-col
       ${isCurrentMonth ? 'text-black' : 'text-slate-400'}
       ${numberOfRows === 6 ? 'h-1/6' : 'h-1/5'}`}
       onClick={addEvent}
     >   
       <div 
-        className={`w-[10px] h-[10px] p-5 mt-1 flex items-center justify-center rounded-full cursor-default 
+        className={`md:w-[10px] w-[5px] md:h-[10px] h-[5px] md:p-5 p-3 mt-1 flex items-center justify-center rounded-full cursor-default 
         ${isToday ? 'bg-purple-700 text-white' : ''}`}
       >
         <p>{date.date()}</p>

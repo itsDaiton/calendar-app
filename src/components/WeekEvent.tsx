@@ -21,9 +21,9 @@ const Event = ({ event, height, top, width, left, eventsPerDay, setSelectedEvent
         setShowModalSingleEvent(true)
       }} 
     >
-      <div>
+      <div className='overflow-hidden whitespace-nowrap '>
         {eventsPerDay > 2 ? '' :
-        <div>
+        <div className='lg:block hidden'>
           <p>{event.title}</p>
           <p>{event.from.format('HH:mm')} - {event.to.format('HH:mm')}</p> 
         </div>

@@ -18,9 +18,9 @@ const EventBox = ({ event, start, end, setSelectedEvent, setShowModalSingleEvent
           setShowModalSingleEvent(true)
         }}
       >
-        <span>
+        <p className='overflow-hidden whitespace-nowrap lg:text-[14px] md:text-[12px] text-[10px]'>
           {`${event.title} (${start} - ${end})`}
-        </span>
+        </p>
       </div>
   )
 }

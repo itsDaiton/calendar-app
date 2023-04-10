@@ -56,7 +56,7 @@ const WeekCell = ({ hours, index, year, month, week, view }: CalendarCellProps) 
               setShowModalOperationsAdd(true)
             }}
           >
-            <span className='z-50'>
+            <span className='z-50 sm:text-[14px] es:text-[12px] text-[10px]'>
               {index % 7 === 0 ? hour.add(1, 'hour').format('HH:mm') : ''}
             </span>
           </div>
