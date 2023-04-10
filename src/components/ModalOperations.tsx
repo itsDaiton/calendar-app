@@ -214,7 +214,7 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
   return (
     <div>
       <div
-        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 cursor-default font-poppins font-medium'
+        className='flex justify-center items-center overflow-x-hidden overflow-y-auto fixed inset-0 z-50 font-poppins font-medium'
         onClick={clickOutside}
       >
         <div className='relative w-auto my-6 mx-auto max-w-2xl text-black'>
@@ -222,35 +222,35 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
             className='flex flex-col relative w-full rounded-xl shadow-2xl bg-white'
             onClick={e => e.stopPropagation()}
           >
-            <div className='flex p-5 border-b-2'>
+            <div className='flex es:p-5 p-3 border-b-2'>
               <div className='flex flex-col justify-center items-center w-full'>
-                <div className='flex justify-center items-center text-3xl mb-4 space-x-4'>
-                  <FontAwesomeIcon icon={mode === 'edit' ? faPen : faCalendarDays} />
+                <div className='flex justify-center items-center lg:text-3xl md:text-2xl es:text-xl text-[18px] mb-4 es:space-x-4 space-x-2'>
+                  <FontAwesomeIcon icon={mode === 'edit' ? faPen : faCalendarDays}/>
                   <p className='font-semibold'>
                     {mode === 'edit' ? `Editing \'${event?.title}\'` : 'New event'}
                   </p>
                 </div>
                 {mode === 'add' ?
-                <p className='text-xl font-semibold text-slate-600'>
+                <p className='lg:text-xl es:text-[20px] text-[14px] font-semibold text-slate-600'>
                   {date.locale('en').format('dddd').substring(0, 3)} {date.format('DD')}. {date.format('MM')}. {date.format('YYYY')}
                 </p>
                 :
                 <div>
-                  <p className='text-xl font-semibold text-slate-600 text-center'>
+                  <p className='lg:text-xl es:text-[20px] text-[14px] font-semibold text-slate-600 text-center'>
                     {event?.from.format('HH:mm')} - {event?.to.format('HH:mm')}
                   </p>
-                  <p className='text-xl font-semibold text-slate-600 mt-5 text-center'>
+                  <p className='lg:text-xl es:text-[20px] text-[14px] font-semibold text-slate-600 text-center es:mt-5 mt-1'>
                     {event?.from.locale('en').format('dddd').substring(0, 3)} {event?.from.format('DD')}. {event?.from.format('MM')}. {event?.from.format('YYYY')}
                   </p>
                 </div>
                 }
               </div>
             </div>
-            <form className='relative p-5 flex-auto space-y-8 mx-2'>
+            <form className='relative es:p-5 p-2 flex-auto space-y-8 mx-2 es:mt-0 mt-4'>
               <div>
                 <label 
                   htmlFor='title'
-                  className={`flex text-[18px] text-black mb-2 ${titleError !== '' ? 'text-red-500' : '' }`}
+                  className={`flex md:text-[18px] text-[16px] text-black mb-2 ${titleError !== '' ? 'text-red-500' : '' }`}
                 >
                   Title
                 </label>
@@ -261,7 +261,8 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
                   value={eventInputs.title}
                   onChange={handleChange}
                   placeholder='Title'
-                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline 
+                  md:text-[18px] text-[16px] placeholder:md:text-[18px] placeholder:text-[16px] focus:outline-none
                   placeholder:text-black ${titleError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500' : '' }`}
                 />
                 <p className='pl-1 mt-2 text-sm text-red-600'>
@@ -271,7 +272,7 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
               <div>
                 <label 
                   htmlFor='from'
-                  className={`flex text-[18px] text-black mb-2 ${fromError !== '' ? 'text-red-500' : '' }`}
+                  className={`flex md:text-[18px] text-[16px] text-black mb-2 ${fromError !== '' ? 'text-red-500' : '' }`}
                 >
                   From
                 </label>
@@ -280,7 +281,8 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
                   name='from'
                   value={eventInputs.from}
                   onChange={handleChange}
-                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline 
+                  md:text-[18px] text-[16px] placeholder:md:text-[18px] placeholder:text-[16px] focus:outline-none
                   ${fromError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
                   <option>{mode === 'edit' ? 'Choose an new hour' : 'Choose an hour' }</option>
@@ -295,7 +297,7 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
               <div>
                 <label 
                   htmlFor='to'
-                  className={`flex text-[18px] text-black mb-2 ${toError !== '' ? 'text-red-500' : '' }`}
+                  className={`flex md:text-[18px] text-[16px] text-black mb-2 ${toError !== '' ? 'text-red-500' : '' }`}
                 >
                   To
                 </label>
@@ -304,7 +306,8 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
                   name='to'
                   value={eventInputs.to}
                   onChange={handleChange}
-                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline text-[18px] placeholder:text-[18px] focus:outline-none
+                  className={`bg-slate-200 rounded-xl w-full p-2.5 focus:no-underline
+                  md:text-[18px] text-[16px] placeholder:md:text-[18px] placeholder:text-[16px] focus:outline-none
                   ${toError !== '' ? 'border-red-500 border-2 bg-red-100 placeholder:text-red-500 text-red-500' : '' }`}
                 >
                   <option>{mode === 'edit' ? 'Choose an new hour' : 'Choose an hour' }</option>
@@ -319,7 +322,7 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
               <div>
                 <label 
                   htmlFor='to'
-                  className='flex text-[18px] text-black my-2'
+                  className='flex md:text-[18px] text-[16px] text-black my-2'
                 >
                   Color
                 </label>
@@ -328,7 +331,7 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
                     <label 
                     key={color.id}
                     htmlFor={color.value}
-                    className={`w-[40px] h-[40px] rounded-full cursor-pointer
+                    className={`md:w-[40px] sm:w-[35px] w-[30px] md:h-[40px] sm:h-[35px] h-[30px] rounded-full cursor-pointer
                     ${color.value}
                     ${eventInputs.color === color.value ? 'outline outline-4' : ''}`}
                   >
@@ -348,14 +351,16 @@ const ModalOperations = ({ date, mode, event, view, setShowModal, showModal }: M
             </form>
             <div className='flex items-center justify-center space-x-5 mb-8 mt-10'>
               <button
-                className='text-[18px] text-white bg-green-500 rounded-xl p-1 font-medium px-8 py-2 select-none space-x-2'
+                className='md:text-[18px] sm:text-[16px] text-white bg-green-500 rounded-xl p-1 font-medium 
+                es:px-8 px-4 py-2 select-none space-x-2'
                 type='button'
                 onClick={handleSubmit}
               >
                 Confirm
               </button>
               <button
-                className='text-[18px] text-white bg-red-500 rounded-xl p-1 font-medium px-8 py-2 select-none space-x-2'
+                className='md:text-[18px] sm:text-[16px] text-white bg-red-500 rounded-xl p-1 font-medium 
+                es:px-8 px-4 py-2 select-none space-x-2'
                 type='button'
                 onClick={() => setShowModal(false)}
               >
