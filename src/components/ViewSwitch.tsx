@@ -20,7 +20,8 @@ const ViewSwitch = () => {
         <label 
           key={viewType.id}
           htmlFor={viewType.value}
-          className={`text-[18px] cursor-pointer flex justify-center items-center flex-col py-2 px-8 rounded-xl select-none
+          className={`xl:text-[18px] md:text-[16px] es:text-[14px] text-[10px] cursor-pointer flex justify-center items-center flex-col 
+          py-2 xl:px-8 es:px-4 px-2 rounded-xl select-none
           ${viewType.value === view ? 'bg-purple-700 text-white' : 'text-slate-500'}`}
         >
           <input
@@ -32,8 +33,11 @@ const ViewSwitch = () => {
             className='hidden'
             onChange={handleViewSwitch}
           />
-            <span>
+            <span className='md:flex hidden'>
               {viewType.text}
+            </span>
+            <span className='md:hidden flex'>
+              {viewType.text.substring(0, 1)}
             </span>
         </label>
       ))}

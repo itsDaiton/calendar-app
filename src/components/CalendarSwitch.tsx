@@ -100,11 +100,15 @@ const CalendarSwitch = () => {
       <FontAwesomeIcon
         icon={faChevronLeft}
         onClick={() => movePreviousMonth()}
-        className='text-[26px] cursor-pointer'
+        className='xl:text-[26px] text-[20px] cursor-pointer md:pr-0 pr-6'
       />
-      <div className='flex justify-center text-[28px] space-x-2 font-semibold w-1/2 select-none'>
-        <span>
+      <div className='flex justify-center xl:text-[28px] sm:text-[22px] es:text-[20px] text-[16px] 
+      es:space-x-2 space-x-1 font-semibold w-1/2 select-none'>
+        <span className='es:flex hidden'>
           {dayjs().month(month).format('MMMM')}
+        </span>
+        <span className='es:hidden flex'>
+          {dayjs().month(month).format('MMMM').substring(0, 3)}
         </span>
         <span>
           {year}
@@ -113,7 +117,7 @@ const CalendarSwitch = () => {
       <FontAwesomeIcon 
         icon={faChevronRight}
         onClick={() => moveNextMonth()}
-        className='text-[26px] cursor-pointer'
+        className='xl:text-[26px] text-[20px] cursor-pointer md:pl-0 pl-6'
       />
     </div>
   )
