@@ -4,6 +4,8 @@ import { EventType } from '../../utils/data';
 import ModalEvents from './ModalEvents';
 import ModalOperations from './ModalOperations';
 import ModalSingleEvent from './ModalSingleEvent';
+import EventBox from './EventBox';
+import ButtonMore from './ButtonMore';
 
 type CalendarCellProps = {
   date: dayjs.Dayjs;
@@ -51,7 +53,7 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
   useEffect(() => {
     const items: EventType[] = loadEvents()
     setEvents(items)
-  }, [showModalOperationsAdd,, showModalOperationsEdit, showModalSingleEvent, year, month, week, view])
+  }, [showModalOperationsAdd, showModalOperationsEdit, showModalSingleEvent, year, month, week, view])
 
   const sameDayEvents: EventType[] = events.filter(
     (event) => date.isSame(event.from, 'date')).sort(
@@ -60,34 +62,25 @@ const MonthCell = ({ date, numberOfRows, isCurrentMonth, isToday, year, week, mo
   )
 
   const eventBoxes: JSX.Element[] = sameDayEvents.slice(0, 2).map((event, index) => {
-    const startTime = event.from.format('HH:mm')
-    const endTime = event.to.format('HH:mm')
+    const startTime: string = event.from.format('HH:mm')
+    const endTime: string = event.to.format('HH:mm')
     return (
-      <div 
-        key={index} 
-        className={`w-full h-[20px] ${event.color} rounded-md text-white font-medium text-sm mb-1 pl-1 pr-2 cursor-pointer`}
-        onClick={() => {
-          setSelectedEvent(event)
-          setShowModalSingleEvent(true)
-        }}
-      >
-        <span>
-          {`${event.title} (${startTime} - ${endTime})`}
-        </span>
-      </div>
+      <EventBox
+        key={index}
+        event={event}
+        start={startTime}
+        end={endTime}
+        setSelectedEvent={setSelectedEvent}
+        setShowModalSingleEvent={setShowModalSingleEvent}
+      />
     )
   })
 
   const moreButton: JSX.Element | null =
     sameDayEvents.length > 2 ? (
-      <div className='w-full flex justify-center mt-1'>
-        <button
-          className='text-blue-500 font-medium hover:text-blue-700 cursor-pointer'
-          onClick={() => setShowModalEvents(true)}
-        >
-          More...
-        </button>
-      </div>
+      <ButtonMore
+        setShowModalEvents={setShowModalEvents}
+      />
     ) : null
 
   return (

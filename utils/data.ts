@@ -50,14 +50,7 @@ export const getCurrentYear = (): number => {
 }
 
 export const getCurrentWeek = (): number => {
-  let currentWeek: number
-  if (currentDate.day(0)) {
-    currentWeek = currentDate.subtract(1, 'week').week()
-  }
-  else {
-    currentWeek = currentDate.week()
-  }
-  return currentWeek
+  return currentDate.add(1, 'day').week()
 }
 
 export const getFirstDayOfWeek = (year: number, month: number, week: number): dayjs.Dayjs => {
