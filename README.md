@@ -20,6 +20,9 @@ V aplikaci mohou uživatelé provádět následující akce:
 - Vite
 - Tailwind CSS
 
+## Data
+Data se ukládají a načítají z localStorage.
+
 ## Použité knihovny
 - Font Awesome Icons
 - Redux
