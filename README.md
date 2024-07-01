@@ -1,7 +1,7 @@
 # Calendar App
 Osobní kalendář vytvořen v technologiích React, TypeScript a Tailwind CSS.
 
-Odkaz na aplikaci: **https://dposlusny-calendar.netlify.app/**
+**https://daiton-calendar.onrender.com**
 
 ## Popis
 Jedná se o single-page application v podobě kalendáře. Aplikace je plně responsivní pro všecha zařízení, včetně mobilních zařízení.
@@ -28,7 +28,7 @@ Data se ukládají a načítají z localStorage.
 - Redux
 - Redux Toolkit
 - Validator
-- Dayjs
+- Day.js
 
 ## Autoři
 - David Poslušný
